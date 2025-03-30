@@ -1,3 +1,4 @@
+"use server";
 import { hash } from "bcryptjs";
 import { signupSchema, SignupSchemaType } from "~/schemas/auth";
 import { db } from "~/server/db";

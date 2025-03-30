@@ -1,12 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { registerUser } from "~/actions/auth";
 import { signupSchema, SignupSchemaType } from "~/schemas/auth";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -23,7 +27,23 @@ export default function SignupPage() {
   async function onSubmit(data: SignupSchemaType) {
     try {
       setLoading(true);
-      const results = await registerUser(data);
+      const result = await registerUser(data);
+
+      if (result.error) {
+        setError(result.error);
+        return;
+      }
+
+      // Sign in after registration
+      const signInResult = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
+
+      if (!signInResult?.error) {
+        router.push("/dashboard");
+      }
     } catch (error) {
       setError("Something went wrong");
     } finally {
