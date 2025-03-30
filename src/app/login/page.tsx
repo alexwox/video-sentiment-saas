@@ -115,7 +115,7 @@ export default function LoginPage() {
               className="flex w-full justify-center rounded-md bg-gray-800 px-4 py-2 font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50"
             >
               {" "}
-              {loading ? "Creating account..." : "Create account"}{" "}
+              {loading ? "Logging in..." : "Log in"}{" "}
             </button>
             <p className="text-center text-sm text-gray-600">
               {" "}
@@ -124,7 +124,7 @@ export default function LoginPage() {
                 href={"/signup"}
                 className="font-medium text-gray-800 hover:text-gray-700"
               >
-                Sign in
+                Sign up
               </Link>
             </p>
           </form>
