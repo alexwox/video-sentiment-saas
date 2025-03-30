@@ -10,5 +10,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/worst bug ever"],
+  matcher: ["/"],
 };
