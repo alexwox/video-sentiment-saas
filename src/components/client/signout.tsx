@@ -14,7 +14,14 @@ function SignOutButton() {
     router.push("/login");
   };
 
-  return <div>SignOutButton</div>;
+  return (
+    <button
+      onClick={handleSignOut}
+      className="flex h-8 items-center justify-center gap-2 rounded-md border border-gray-200 bg-white px-3 text-sm text-gray-600 transition-colors hover:bg-gray-50"
+    >
+      Logout
+    </button>
+  );
 }
 
 export default SignOutButton;
