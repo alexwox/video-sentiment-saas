@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { signupSchema, SignupSchemaType } from "~/schemas/auth";
@@ -19,7 +20,16 @@ export default function SignupPage() {
     },
   });
 
-  async function onSubmit(data: SignupSchemaType) {}
+  async function onSubmit(data: SignupSchemaType) {
+    try {
+      setLoading(true);
+      const results = await registerUser(data);
+    } catch (error) {
+      setError("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -123,6 +133,16 @@ export default function SignupPage() {
               {" "}
               {loading ? "Creating account..." : "Create account"}{" "}
             </button>
+            <p className="text-center text-sm text-gray-600">
+              {" "}
+              Already have an account?{" "}
+              <Link
+                href={"/login"}
+                className="font-medium text-gray-800 hover:text-gray-700"
+              >
+                Sign in
+              </Link>
+            </p>
           </form>
         </div>
       </main>
