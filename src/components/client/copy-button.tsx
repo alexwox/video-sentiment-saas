@@ -14,7 +14,10 @@ function CopyButton({ text }: { text: string }) {
     }
   };
   return (
-    <button onClick={handleCopy} className="">
+    <button
+      onClick={handleCopy}
+      className="flex h-fit w-fit items-center justify-center gap-2 rounded-md border border-gray-200 bg-white px-2 py-1 text-sm text-gray-600 transition-colors hover:bg-gray-50"
+    >
       {copied ? "Copied!" : "Copy"}
     </button>
   );
