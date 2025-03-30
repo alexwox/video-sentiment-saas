@@ -1,6 +1,7 @@
 "use server";
 
 import Link from "next/link";
+import CopyButton from "~/components/client/copy-button";
 import SignOutButton from "~/components/client/signout";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
@@ -34,6 +35,15 @@ export default async function HomePage() {
               Use this key when calling our API to authorize your request.
               DANGER! DO NOT SHARE PUBLICALLY!
             </span>
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <span className="text-sm">Key</span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="w-full max-w-[500px] overflow-x-auto whitespace-nowrap rounded-md border border-gray-200 px-3 py-1 text-sm text-gray-600 sm:w-auto">
+                  {quota.secretKey}
+                </span>
+                <CopyButton text={quota.secretKey} />
+              </div>
+            </div>
           </div>
         </div>
       </main>
