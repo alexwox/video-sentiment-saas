@@ -42,7 +42,7 @@ export default function SignupPage() {
       });
 
       if (!signInResult?.error) {
-        router.push("/dashboard");
+        router.push("/");
       }
     } catch (error) {
       setError("Something went wrong");

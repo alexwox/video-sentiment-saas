@@ -32,7 +32,7 @@ export default function LoginPage() {
       });
 
       if (!signInResult?.error) {
-        router.push("/");
+        window.location.href = "/";
       } else {
         setError(
           signInResult.error === "CredentialsSignin"
