@@ -7,6 +7,7 @@ import { signupSchema, SignupSchemaType } from "~/schemas/auth";
 
 export default function SignupPage() {
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<SignupSchemaType>({
     resolver: zodResolver(signupSchema),
@@ -75,13 +76,53 @@ export default function SignupPage() {
                   placeholder="you@example.com"
                   className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 shadow-sm focus:border-gray-500 focus:outline-none"
                 />
-                {form.formState.errors.name && (
+                {form.formState.errors.email && (
                   <p className="mt-1 text-sm text-red-500">
-                    {form.formState.errors.name.message}
+                    {form.formState.errors.email.message}
+                  </p>
+                )}
+              </div>
+              <div className="">
+                <label htmlFor="" className="text-sm font-medium">
+                  Password
+                </label>
+                <input
+                  {...form.register("password")}
+                  type="password"
+                  placeholder="*********"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 shadow-sm focus:border-gray-500 focus:outline-none"
+                />
+                {form.formState.errors.password && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {form.formState.errors.password.message}
+                  </p>
+                )}
+              </div>
+              <div className="">
+                <label htmlFor="" className="text-sm font-medium">
+                  Confirm Password
+                </label>
+                <input
+                  {...form.register("password")}
+                  type="password"
+                  placeholder="*********"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 shadow-sm focus:border-gray-500 focus:outline-none"
+                />
+                {form.formState.errors.confirmPassword && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {form.formState.errors.confirmPassword.message}
                   </p>
                 )}
               </div>
             </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex w-full justify-center rounded-md bg-gray-800 px-4 py-2 font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50"
+            >
+              {" "}
+              {loading ? "Creating account..." : "Create account"}{" "}
+            </button>
           </form>
         </div>
       </main>
