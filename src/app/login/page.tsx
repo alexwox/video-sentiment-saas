@@ -6,35 +6,25 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { registerUser } from "~/actions/auth";
-import { signupSchema, SignupSchemaType } from "~/schemas/auth";
+import { loginSchema, LoginSchemaType } from "~/schemas/auth";
 
-export default function SignupPage() {
+export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const form = useForm<SignupSchemaType>({
-    resolver: zodResolver(signupSchema),
+  const form = useForm<LoginSchemaType>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
-  async function onSubmit(data: SignupSchemaType) {
+  async function onSubmit(data: LoginSchemaType) {
     try {
       setLoading(true);
-      const result = await registerUser(data);
 
-      if (result.error) {
-        setError(result.error);
-        return;
-      }
-
-      // Sign in after registration
       const signInResult = await signIn("credentials", {
         redirect: false,
         email: data.email,
@@ -42,7 +32,13 @@ export default function SignupPage() {
       });
 
       if (!signInResult?.error) {
-        router.push("/dashboard");
+        router.push("/");
+      } else {
+        setError(
+          signInResult.error === "CredentialsSignin"
+            ? "Invalid email or password"
+            : "Something went wrong",
+        );
       }
     } catch (error) {
       setError("Something went wrong");
@@ -64,9 +60,9 @@ export default function SignupPage() {
       <main className="flex h-[calc(100vh-4rem)] items-center justify-center">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
-            <h2 className="text-2xl font-bold">Create an account</h2>
+            <h2 className="text-2xl font-bold">Welcome back!</h2>
             <p className="mt-2 text-sm text-gray-600">
-              Signup to get started with Sentiment analysis
+              Please sign in to your account
             </p>
           </div>
           <form
@@ -80,22 +76,6 @@ export default function SignupPage() {
             )}
 
             <div className="space-y-4">
-              <div className="">
-                <label htmlFor="" className="text-sm font-medium">
-                  Full Name
-                </label>
-                <input
-                  {...form.register("name")}
-                  type="text"
-                  placeholder="John Doe"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 shadow-sm focus:border-gray-500 focus:outline-none"
-                />
-                {form.formState.errors.name && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {form.formState.errors.name.message}
-                  </p>
-                )}
-              </div>
               <div className="">
                 <label htmlFor="" className="text-sm font-medium">
                   Email
@@ -128,22 +108,6 @@ export default function SignupPage() {
                   </p>
                 )}
               </div>
-              <div className="">
-                <label htmlFor="" className="text-sm font-medium">
-                  Confirm Password
-                </label>
-                <input
-                  {...form.register("confirmPassword")}
-                  type="password"
-                  placeholder="*********"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 shadow-sm focus:border-gray-500 focus:outline-none"
-                />
-                {form.formState.errors.confirmPassword && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {form.formState.errors.confirmPassword.message}
-                  </p>
-                )}
-              </div>
             </div>
             <button
               type="submit"
@@ -155,9 +119,9 @@ export default function SignupPage() {
             </button>
             <p className="text-center text-sm text-gray-600">
               {" "}
-              Already have an account?{" "}
+              Don't have an account?{" "}
               <Link
-                href={"/login"}
+                href={"/signup"}
                 className="font-medium text-gray-800 hover:text-gray-700"
               >
                 Sign in

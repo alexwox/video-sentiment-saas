@@ -51,7 +51,7 @@ export const authConfig = {
             where: { email },
           });
 
-          if (!user || user.password) {
+          if (!user || !user.password) {
             return null;
           }
 
