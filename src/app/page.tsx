@@ -1,6 +1,7 @@
 "use server";
 
 import Link from "next/link";
+import CodeExamples from "~/components/client/code-examples";
 import CopyButton from "~/components/client/copy-button";
 import SignOutButton from "~/components/client/signout";
 import { auth } from "~/server/auth";
@@ -45,6 +46,23 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
+          <div className="mt-3 flex h-fit w-full flex-col rounded-xl bg-gray-100 bg-opacity-70 p-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <span className="text-sm">Monthly quota</span>
+              <span className="text-sm text-gray-500">
+                {quota.requestsUsed}/{quota.maxRequests} requests
+              </span>
+            </div>
+            <div className="mt-1 h-1 w-full rounded-full bg-gray-200">
+              <div
+                style={{
+                  width: (quota.requestsUsed / quota.maxRequests) * 100 + "%",
+                }}
+                className="h-1 rounded-full bg-gray-800"
+              ></div>
+            </div>
+          </div>
+          <CodeExamples />
         </div>
       </main>
       <div className="">Youre in</div>
