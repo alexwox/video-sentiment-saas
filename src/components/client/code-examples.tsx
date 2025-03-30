@@ -35,7 +35,30 @@ const analysis = await fetch('/api/sentiment-inference', {
   `;
 
   const curlCode = `
-  
+  # 1. Get upload URL
+# Note: The output will be JSON containing the 'url' and 'key' needed for subsequent steps.
+curl -X POST 'http://YOUR_API_BASE_URL/api/upload-url' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{"fileType": "mp4"}'
+
+# --- Manually get 'url' and 'key' from the output above ---
+# Example: url="https://s3...", key="uploads/..."
+
+# 2. Upload file to S3
+# Replace $url with the actual URL from step 1
+# Replace /path/to/your/video.mp4 with the actual file path
+# Note: Using POST as per the TS example. S3 presigned URLs often use PUT.
+curl -X POST '$url' \
+  -H 'Content-Type: video/mp4' \
+  --data-binary '@/path/to/your/video.mp4'
+
+# 3. Analyze video
+# Replace YOUR_API_KEY, YOUR_API_BASE_URL, and $key (from step 1)
+curl -X POST 'http://YOUR_API_BASE_URL/api/sentiment-inference' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{"key": "$key"}'
   
   `;
 
