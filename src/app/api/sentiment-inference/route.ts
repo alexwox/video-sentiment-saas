@@ -4,6 +4,7 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { env } from "~/env";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { checkAndUpdateQuota } from "~/lib/quota";
+import { SageMakerRuntimeClient } from "@aws-sdk/client-sagemaker-runtime";
 
 export async function POST(req: Request) {
   try {
@@ -66,6 +67,15 @@ export async function POST(req: Request) {
         { status: 429 },
       );
     }
+
+    //Call Sagemaker endpoint
+    const sagemakerClient = new SageMakerRuntimeClient({
+      region: env.AWS_REGION,
+      credentials: {
+        accessKeyId: env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+      },
+    });
 
     return NextResponse.json({});
   } catch (error) {
