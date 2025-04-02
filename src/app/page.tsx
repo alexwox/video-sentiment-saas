@@ -26,6 +26,7 @@ export default async function HomePage() {
         <SignOutButton />
       </nav>
       <main className="sm:p10 flex min-h-screen w-full flex-col gap-6 p-4 md:flex-row">
+        <Inference quota={{secretKey: quota.secretKey}}
         <div className="flex h-fit w-full flex-col gap-3 md:w-1/2"></div>
         <div className="hidden border-l border-slate-200 md:block"></div>
         <div className="flex h-fit w-full flex-col gap-3 md:w-1/2">

@@ -4,7 +4,10 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { env } from "~/env";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { checkAndUpdateQuota } from "~/lib/quota";
-import { SageMakerRuntimeClient } from "@aws-sdk/client-sagemaker-runtime";
+import {
+  InvokeEndpointCommand,
+  SageMakerRuntimeClient,
+} from "@aws-sdk/client-sagemaker-runtime";
 
 export async function POST(req: Request) {
   try {
@@ -77,9 +80,31 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({});
+    const command = new InvokeEndpointCommand({
+      EndpointName: env.AWS_ENDPOINT_NAME,
+      ContentType: "application/json",
+      Body: JSON.stringify({
+        video_path: `s3://alexwox-sentiment-analysis-saas/${key}`,
+      }),
+    });
+
+    const response = await sagemakerClient.send(command);
+    const analysis = JSON.parse(new TextDecoder().decode(response.Body));
+
+    await db.videoFile.update({
+      where: {
+        key,
+      },
+      data: {
+        analyzed: true,
+      },
+    });
+
+    return NextResponse.json({
+      analysis,
+    });
   } catch (error) {
-    console.error("Upload error: ", error);
+    console.error("Analysis error: ", error);
     return NextResponse.json(
       { error: "Internal server Error" },
       { status: 500 },
