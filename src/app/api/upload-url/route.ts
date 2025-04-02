@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { db } from "~/server/db";
-import { S3Client } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { env } from "~/env";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export async function POST(req: Request) {
   try {
@@ -45,5 +46,37 @@ export async function POST(req: Request) {
         secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
       },
     });
-  } catch (error) {}
+
+    const id = crypto.randomUUID();
+    const key = `inference/${id}/${fileType}`;
+
+    const command = new PutObjectCommand({
+      Bucket: env.AWS_INFERENCE_BUCKET,
+      Key: key,
+      ContentType: `video/${fileType.replace(".", "")}`,
+    });
+
+    const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+
+    await db.videoFile.create({
+      data: {
+        key: key,
+        userId: quota.userId,
+        analyzed: false,
+      },
+    });
+
+    return NextResponse.json({
+      url,
+      fileId: id,
+      fileType,
+      key,
+    });
+  } catch (error) {
+    console.error("Upload error: ", error);
+    return NextResponse.json(
+      { error: "Internal server Error" },
+      { status: 500 },
+    );
+  }
 }
