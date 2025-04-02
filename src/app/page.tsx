@@ -3,6 +3,7 @@
 import Link from "next/link";
 import CodeExamples from "~/components/client/code-examples";
 import CopyButton from "~/components/client/copy-button";
+import { Inference } from "~/components/client/Inference";
 import SignOutButton from "~/components/client/signout";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
@@ -26,7 +27,7 @@ export default async function HomePage() {
         <SignOutButton />
       </nav>
       <main className="sm:p10 flex min-h-screen w-full flex-col gap-6 p-4 md:flex-row">
-        <Inference quota={{secretKey: quota.secretKey}}
+        <Inference quota={{ secretKey: quota.secretKey }} />
         <div className="flex h-fit w-full flex-col gap-3 md:w-1/2"></div>
         <div className="hidden border-l border-slate-200 md:block"></div>
         <div className="flex h-fit w-full flex-col gap-3 md:w-1/2">
