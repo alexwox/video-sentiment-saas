@@ -90,13 +90,23 @@ export function Inference({ quota }: InferenceProps) {
       {averages ? (
         <div className="flex h-fit w-full flex-wrap items-center justify-center gap-4 rounded-xl border border-gray-200 p-4 sm:gap-8 sm:px-6">
           <div className="flex flex-col items-center">
-            <span className="text-sm">Primary emotion</span>
+            <span className="text-sm">Primary Emotion</span>
             <span className="text-[40px]">
               {EMOTION_EMOJI[averages?.topEmotion?.label!]}
             </span>
             <span className="text-sm text-gray-500">
               {averages.topEmotion?.confidence} (
               {(averages.topEmotion?.confidence! * 100).toFixed(0)}%)
+            </span>
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-sm">Primary Sentiment</span>
+            <span className="text-[40px]">
+              {SENTIMENT_EMOJI[averages?.topSentiment?.label!]}
+            </span>
+            <span className="text-sm text-gray-500">
+              {averages.topSentiment?.confidence} (
+              {(averages.topSentiment?.confidence! * 100).toFixed(0)}%)
             </span>
           </div>
         </div>
