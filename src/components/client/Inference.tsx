@@ -173,7 +173,7 @@ export function Inference({ quota }: InferenceProps) {
               {EMOTION_EMOJI[averages?.topEmotion?.label!]}
             </span>
             <span className="text-sm text-gray-500">
-              {averages.topEmotion?.confidence} (
+              {averages.topEmotion?.confidence.toFixed(3)} (
               {(averages.topEmotion?.confidence! * 100).toFixed(0)}%)
             </span>
           </div>
@@ -183,7 +183,7 @@ export function Inference({ quota }: InferenceProps) {
               {SENTIMENT_EMOJI[averages?.topSentiment?.label!]}
             </span>
             <span className="text-sm text-gray-500">
-              {averages.topSentiment?.confidence} (
+              {averages.topSentiment?.confidence.toFixed(3)} (
               {(averages.topSentiment?.confidence! * 100).toFixed(0)}%)
             </span>
           </div>
