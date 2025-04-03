@@ -8,22 +8,6 @@ interface UploadVideoProps {
   onAnalysis: (analysis: Analysis) => void;
 }
 
-const EMOTION_EMOJI: Record<string, string> = {
-  anger: "😠",
-  disgust: "🤢",
-  fear: "😨",
-  joy: "😊",
-  neutral: "😐",
-  sadness: "😢",
-  suprise: "😲",
-};
-
-const SENTIMENT_EMOJI: Record<string, string> = {
-  negative: "😞",
-  neutral: "😐",
-  positive: "😊",
-};
-
 function UploadVideo({ apiKey, onAnalysis }: UploadVideoProps) {
   const [status, setStatus] = useState<"idle" | "uploading" | "analyzing">(
     "idle",

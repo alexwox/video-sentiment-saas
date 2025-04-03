@@ -3,6 +3,22 @@
 import { useState } from "react";
 import UploadVideo from "./UploadVideo";
 
+const EMOTION_EMOJI: Record<string, string> = {
+  anger: "😠",
+  disgust: "🤢",
+  fear: "😨",
+  joy: "😊",
+  neutral: "😐",
+  sadness: "😢",
+  suprise: "😲",
+};
+
+const SENTIMENT_EMOJI: Record<string, string> = {
+  negative: "😞",
+  neutral: "😐",
+  positive: "😊",
+};
+
 interface InferenceProps {
   quota: {
     secretKey: string;
@@ -70,7 +86,21 @@ export function Inference({ quota }: InferenceProps) {
     <div className="flex h-fit w-full flex-col gap-3 md:w-1/2">
       <h2 className="text-ls font-medium text-slate-800">Inference</h2>
       <UploadVideo onAnalysis={setAnalysis} apiKey={quota.secretKey} />
-      <h2 className="">Overall analysis</h2>
+      <h2 className="mt-2 text-sm text-slate-800">Overall analysis</h2>
+      {true ? (
+        <div className="flex h-fit w-full flex-wrap items-center justify-center gap-4 rounded-xl border border-gray-200 p-4 sm:gap-8 sm:px-6">
+          <div className="flex flex-col items-center">
+            <span className="text-sm">Primary emotion</span>
+            <span className="text-[40px]">{EMOTION_EMOJI["sadness"]}</span>
+          </div>
+        </div>
+      ) : (
+        <div className="flex h-32 w-full items-center justify-center rounded-xl border border-dashed border-gray-200 p-4">
+          <span className="text-sm text-gray-400">
+            Upload video to see overall analysis
+          </span>
+        </div>
+      )}
     </div>
   );
 }
