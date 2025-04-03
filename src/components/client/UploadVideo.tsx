@@ -18,6 +18,12 @@ const EMOTION_EMOJI: Record<string, string> = {
   suprise: "😲",
 };
 
+const SENTIMENT_EMOJI: Record<string, string> = {
+  negative: "😞",
+  neutral: "😐",
+  positive: "😊",
+};
+
 function UploadVideo({ apiKey, onAnalysis }: UploadVideoProps) {
   const [status, setStatus] = useState<"idle" | "uploading" | "analyzing">(
     "idle",
