@@ -195,6 +195,31 @@ export function Inference({ quota }: InferenceProps) {
           </span>
         </div>
       )}
+      <h2 className="mt-2 text-sm text-slate-800">Analysis of utterances</h2>
+
+      {averages ? (
+        <div className="flex flex-col gap-2">
+          {analysis?.utterances.map((utterance, i) => {
+            return (
+              <div className="flex h-fit w-full flex-wrap justify-between gap-8 rounded-xl border border-gray-200 px-6 py-4 sm:gap-4">
+                {/*Time and text*/}
+                <div className="flex w-full max-w-24 flex-col justify-center">
+                  <div className="text-sm font-semibold">
+                    {Number(utterance.start_time).toFixed(1)} -{" "}
+                    {Number(utterance.end_time).toFixed(1)}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="flex h-32 w-full items-center justify-center rounded-xl border border-dashed border-gray-200 p-4">
+          <span className="text-sm text-gray-400">
+            Upload a video to see analysis results
+          </span>
+        </div>
+      )}
     </div>
   );
 }
