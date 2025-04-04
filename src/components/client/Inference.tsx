@@ -201,7 +201,10 @@ export function Inference({ quota }: InferenceProps) {
         <div className="flex flex-col gap-2">
           {analysis?.utterances.map((utterance, i) => {
             return (
-              <div className="flex h-fit w-full flex-wrap justify-between gap-8 rounded-xl border border-gray-200 px-6 py-4 sm:gap-4">
+              <div
+                key={i}
+                className="flex h-fit w-full flex-wrap justify-between gap-8 rounded-xl border border-gray-200 px-6 py-4 sm:gap-4"
+              >
                 {/*Time and text*/}
                 <div className="flex w-full max-w-24 flex-col justify-center">
                   <div className="text-sm font-semibold">
