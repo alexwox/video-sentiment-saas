@@ -206,7 +206,7 @@ export function Inference({ quota }: InferenceProps) {
                 className="flex h-fit w-full flex-wrap justify-between gap-8 rounded-xl border border-gray-200 px-6 py-4 sm:gap-4"
               >
                 {/*Time and text*/}
-                <div className="flex w-full max-w-24 flex-col justify-center">
+                <div className="flex max-w-24 flex-col justify-center">
                   <div className="text-sm font-semibold">
                     {Number(utterance.start_time).toFixed(1)} -{" "}
                     {Number(utterance.end_time).toFixed(1)}
@@ -217,7 +217,7 @@ export function Inference({ quota }: InferenceProps) {
                 </div>
 
                 {/*Emotions*/}
-                <div className="flex w-full max-w-48 flex-col gap-2">
+                <div className="flex max-w-48 flex-col gap-2">
                   <span className="text-xs font-medium">Emotions</span>
                   {utterance.emotions.map((emo, i) => (
                     <div className="flex items-center gap-2" key={i}>
@@ -233,6 +233,29 @@ export function Inference({ quota }: InferenceProps) {
                         </div>
                         <span className="w-8 text-right text-xs">
                           {(emo.confidence * 100).toFixed(0)}%
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/*Sentiments*/}
+                <div className="flex max-w-48 flex-col gap-2">
+                  <span className="text-xs font-medium">Sentiments</span>
+                  {utterance.sentiments.map((sent, i) => (
+                    <div className="flex items-center gap-2" key={i}>
+                      <span className="w-16 text-xs text-gray-500">
+                        {sent.label}
+                      </span>
+                      <div className="flex-1">
+                        <div className="h-1 w-full rounded-full bg-gray-100">
+                          <div
+                            style={{ width: `${sent.confidence * 100}%` }}
+                            className="h-1 rounded-full bg-gray-800"
+                          ></div>
+                        </div>
+                        <span className="w-8 text-right text-xs">
+                          {(sent.confidence * 100).toFixed(0)}%
                         </span>
                       </div>
                     </div>
