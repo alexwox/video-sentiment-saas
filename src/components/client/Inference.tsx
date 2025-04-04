@@ -224,6 +224,17 @@ export function Inference({ quota }: InferenceProps) {
                       <span className="w-16 text-xs text-gray-500">
                         {EMOTION_EMOJI[emo.label]} {emo.label}
                       </span>
+                      <div className="flex-1">
+                        <div className="h-1 w-full rounded-full bg-gray-100">
+                          <div
+                            style={{ width: `${emo.confidence * 100}%` }}
+                            className="h-1 rounded-full bg-gray-800"
+                          ></div>
+                        </div>
+                        <span className="w-8 text-right text-xs">
+                          {(emo.confidence * 100).toFixed(0)}%
+                        </span>
+                      </div>
                     </div>
                   ))}
                 </div>
