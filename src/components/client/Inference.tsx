@@ -14,7 +14,7 @@ const EMOTION_EMOJI: Record<string, string> = {
 };
 
 const SENTIMENT_EMOJI: Record<string, string> = {
-  negative: "😞",
+  negative: "😭",
   neutral: "😐",
   positive: "😊",
 };
@@ -221,7 +221,7 @@ export function Inference({ quota }: InferenceProps) {
                   <span className="text-xs font-medium">Emotions</span>
                   {utterance.emotions.map((emo, i) => (
                     <div className="flex items-center gap-2" key={i}>
-                      <span className="w-16 text-xs text-gray-500">
+                      <span className="w-16 whitespace-nowrap text-xs text-gray-500">
                         {EMOTION_EMOJI[emo.label]} {emo.label}
                       </span>
                       <div className="flex-1">
@@ -244,8 +244,8 @@ export function Inference({ quota }: InferenceProps) {
                   <span className="text-xs font-medium">Sentiments</span>
                   {utterance.sentiments.map((sent, i) => (
                     <div className="flex items-center gap-2" key={i}>
-                      <span className="w-16 text-xs text-gray-500">
-                        {sent.label}
+                      <span className="w-16 whitespace-nowrap text-xs text-gray-500">
+                        {SENTIMENT_EMOJI[sent.label]} {sent.label}
                       </span>
                       <div className="flex-1">
                         <div className="h-1 w-full rounded-full bg-gray-100">
