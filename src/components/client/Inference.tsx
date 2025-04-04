@@ -211,6 +211,21 @@ export function Inference({ quota }: InferenceProps) {
                     {Number(utterance.start_time).toFixed(1)} -{" "}
                     {Number(utterance.end_time).toFixed(1)}
                   </div>
+                  <div className="mt-1 text-xs text-gray-500">
+                    {utterance.text}
+                  </div>
+                </div>
+
+                {/*Emotions*/}
+                <div className="flex w-full max-w-48 flex-col gap-2">
+                  <span className="text-xs font-medium">Emotions</span>
+                  {utterance.emotions.map((emo, i) => (
+                    <div className="flex items-center gap-2" key={i}>
+                      <span className="w-16 text-xs text-gray-500">
+                        {EMOTION_EMOJI[emo.label]} {emo.label}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             );
