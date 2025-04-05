@@ -57,7 +57,7 @@ function UploadVideo({ apiKey, onAnalysis }: UploadVideoProps) {
       });
 
       if (!analysisRes.ok) {
-        const error = await res.json();
+        const error = await analysisRes.json();
         throw new Error(error?.error || "Failed to analyze video");
       }
       const analysis = await analysisRes.json();
