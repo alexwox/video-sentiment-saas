@@ -26,24 +26,26 @@ interface InferenceProps {
 }
 
 export type Analysis = {
-  utterances: Array<{
-    start_time: number;
-    end_time: number;
-    text: string;
-    emotions: Array<{ label: string; confidence: number }>;
-    sentiments: Array<{ label: string; confidence: number }>;
-  }>;
+  analysis: {
+    utterances: Array<{
+      start_time: number;
+      end_time: number;
+      text: string;
+      emotions: Array<{ label: string; confidence: number }>;
+      sentiments: Array<{ label: string; confidence: number }>;
+    }>;
+  };
 };
 export function Inference({ quota }: InferenceProps) {
   const [analysis, setAnalysis] = useState<Analysis | null>();
 
   const getAverageScores = () => {
-    if (!analysis?.utterances.length) return null;
+    if (!analysis?.analysis.utterances.length) return null;
 
     //Aggregate all scores
     const emotionScores: Record<string, number[]> = {};
     const sentimentScores: Record<string, number[]> = {};
-    analysis?.utterances.forEach((utterance) => {
+    analysis?.analysis.utterances.forEach((utterance) => {
       utterance.emotions.forEach((emotion) => {
         if (!emotionScores[emotion.label]) emotionScores[emotion.label] = [];
         emotionScores[emotion.label]!.push(emotion.confidence);
@@ -121,7 +123,7 @@ export function Inference({ quota }: InferenceProps) {
 
       {averages ? (
         <div className="flex flex-col gap-2">
-          {analysis?.utterances.map((utterance, i) => {
+          {analysis?.analysis.utterances.map((utterance, i) => {
             return (
               <div
                 key={i}
