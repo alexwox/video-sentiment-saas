@@ -36,9 +36,9 @@ function UploadVideo({ apiKey, onAnalysis }: UploadVideoProps) {
       // 2. Upload file to S3
 
       const uploadRes = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "video/mp4" },
-        body: file.type,
+        method: "PUT",
+        headers: { "Content-Type": file.type },
+        body: file,
       });
       if (!uploadRes.ok) {
         throw new Error("Failed to upload file");
