@@ -6,32 +6,48 @@ function CodeExamples() {
   const [activeTab, setActiveTab] = useState<"ts" | "curl">("ts");
 
   const tsCode = `
-// 1. Get upload URL
-const {url, key} = await fetch('/api/upload-url', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer ' + YOUR_API_KEY,
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({fileType: 'mp4'})
-}).then(res => res.json());  
+  const fileType = .mp4;
+  const res = await fetch("/api/upload-url", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + apiKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ fileType: fileType }),
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error?.error || "Failed to get upload URL");
+  }
+  const { url, fileId, key } = await res.json();
+  // 2. Upload file to S3
 
-// 2. Upload file to S3
-await fetch(url, {
-  method: 'POST',
-  headers: {'Content-Type': 'video/mp4'},
-  body: videoFile,
-})
+  const uploadRes = await fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": file.type },
+    body: file,
+  });
+  if (!uploadRes.ok) {
+    throw new Error("Failed to upload file");
+  }
 
-// 3. Analyze video
-const analysis = await fetch('/api/sentiment-inference', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer ' + YOUR_API_KEY,
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ key })
-}).then(res => res.json())
+  setStatus("analyzing");
+
+  // 3. Analyze video
+  const analysisRes = await fetch("/api/sentiment-inference", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + apiKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ key }),
+  });
+
+  if (!analysisRes.ok) {
+    const error = await analysisRes.json();
+    throw new Error(error?.error || "Failed to analyze video");
+  }
+  const analysis = await analysisRes.json();
   `;
 
   const curlCode = `
